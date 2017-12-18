@@ -14,7 +14,7 @@ class Sink extends CommonInform{
 	}
 
 	init(){
-		if (this.options && this.options.rules && this.options.rules.length){
+		if (this.options && this.options.rules && (typeof this.options.rules === 'object') && Object.keys(this.options.rules).length){
 			for(let i in this.options.rules){
 				let newRule = this.initRule(this.options.rules[i]);
 				if (newRule){
@@ -61,6 +61,15 @@ class Sink extends CommonInform{
 			}
 		}
 		return result;
+	}
+
+	/**
+	* Should be overriden by children
+	* @param {object} message complex object containing all sorts of data
+	*/
+
+	deploy(message){
+
 	}
 
 	__testAll(message){

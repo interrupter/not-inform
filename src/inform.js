@@ -19,7 +19,7 @@ class Inform extends CommonInform {
 	}
 
 	init(){
-		if (this.options.sinks && this.options.sinks.length){
+		if (this.options.sinks && Object.keys(this.options.sinks).length){
 			for(let i in this.options.sinks){
 				let newSink = this.initSink(this.options.sinks[i]);
 				if (newSink){
@@ -34,7 +34,7 @@ class Inform extends CommonInform {
 	}
 
 	now(data){
-		for(const sinkInst of this[SYM_SINK]){
+		for(const [key, sinkInst] of this[SYM_SINK].entries()){
 			sinkInst.test(data, true);
 		}
 	}

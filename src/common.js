@@ -1,13 +1,23 @@
 /**
  * @module not-inform/CommonInform
+ * Common class with some usefull functions
  */
 
 const log = require('not-log')(module);
+
+
 
 class CommonInform{
 	constructor(){
 		return this;
 	}
+
+	/**
+	* common key-val adder
+	* @param {string|Symbol} domain property name
+	* @param {any} key key name
+	* @param {any} val key value
+	*/
 
 	__add(domain, key, val){
 		if (this[domain] && typeof this[domain] == 'object' && this[domain].constructor == Map){
@@ -15,23 +25,47 @@ class CommonInform{
 		}
 	}
 
+	/**
+	* common val-by-key remover
+	* @param {string|Symbol} domain property name
+	* @param {any} key key name
+	*/
+
 	__remove(domain, key){
 		if (this[domain] && typeof this[domain] == 'object' && this[domain].constructor == Map){
 			this[domain].delete(key);
 		}
 	}
 
-	__pause(domain, what){
+	/**
+	* common pause target object by key
+	* @param {string|Symbol} domain property name
+	* @param {any} key key name
+	*/
+	__pause(domain, key){
 		if (this[domain] && typeof this[domain] == 'object' && this[domain].constructor == Map){
-			this[domain].get(what).pause();
+			this[domain].get(key).pause();
 		}
 	}
 
-	__resume(domain, what){
+	/**
+	* common resume target object by key
+	* @param {string|Symbol} domain property name
+	* @param {any} key key name
+	*/
+	__resume(domain, key){
 		if (this[domain] && typeof this[domain] == 'object' && this[domain].constructor == Map){
-			this[domain].get(what).resume();
+			this[domain].get(key).resume();
 		}
 	}
+
+
+	/**
+	* Loader for common classes like not-inform-[domain]-[what]
+	* @param {string} domain name of domain
+	* @param {string} what name of sub-domain
+	* @return {object|false}
+	*/
 
 	__getClass(domain, what){
 		try{
@@ -42,6 +76,13 @@ class CommonInform{
 			return false;
 		}
 	}
+
+	/**
+	* Initialization of common module class
+	* @param {string} domain name of domain
+	* @param {object} options options of module
+	* @return {object|false}
+	*/
 
 	__init(domain, options){
 		if (options && options.type){

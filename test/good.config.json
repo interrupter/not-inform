@@ -1,0 +1,27 @@
+{
+	"modules":{
+		"inform":{
+			"sinks":{
+				"reports": {
+					"type": "email",
+					"rules": {
+						"1": {
+							"type": "tag",
+							"list": ["critical"]
+						}
+					}
+				},
+				"news": {
+					"type": "news",
+					"rules": {
+						"1": {
+							"type": "tag",
+							"list": ["critical"]
+						}
+					}
+				}
+			}
+		}
+
+	}
+}
