@@ -2,32 +2,35 @@
  * @module not-inform/CommonInform
  */
 
-const notPath = require('not-path'),
-	log = require('not-log')(module);
+const log = require('not-log')(module);
 
 class CommonInform{
 	constructor(){
 		return this;
 	}
 
-	__add(domain, what){
-		if (this[domain] && typeof this[domain] == 'object'){
-			this[domain].add(what);
+	__add(domain, key, val){
+		if (this[domain] && typeof this[domain] == 'object' && this[domain].constructor == Map){
+			this[domain].set(key, val);
 		}
 	}
 
-	__remove(domain, what){
-		if (this[domain] && typeof this[domain] == 'object'){
-			this[domain].remove(what);
+	__remove(domain, key){
+		if (this[domain] && typeof this[domain] == 'object' && this[domain].constructor == Map){
+			this[domain].delete(key);
 		}
 	}
 
 	__pause(domain, what){
-
+		if (this[domain] && typeof this[domain] == 'object' && this[domain].constructor == Map){
+			this[domain].get(what).pause();
+		}
 	}
 
 	__resume(domain, what){
-
+		if (this[domain] && typeof this[domain] == 'object' && this[domain].constructor == Map){
+			this[domain].get(what).resume();
+		}
 	}
 
 	__getClass(domain, what){
@@ -36,6 +39,7 @@ class CommonInform{
 		}catch(e){
 			//!TODO move to report
 			log && log.error(e);
+			return false;
 		}
 	}
 

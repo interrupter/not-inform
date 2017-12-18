@@ -1,9 +1,8 @@
 const CommonInform = require('./common.js');
-const log = require('not-log')(module);
 const SYM_RULE = Symbol('rule');
-
 class Sink extends CommonInform{
 	constructor(options){
+		super(options);
 		this.OPT_ANY = 'any';
 		this.OPT_ALL = 'all';
 		this[SYM_RULE] 	= 	new Map();
@@ -46,7 +45,7 @@ class Sink extends CommonInform{
 	}
 
 	getRules(){
-		return this[SYN_RULE];
+		return this[SYM_RULE];
 	}
 
 	test(message, autodeploy = true){
@@ -59,15 +58,15 @@ class Sink extends CommonInform{
 			}
 			if (result && autodeploy){
 				this.deploy(message);
-			}			
+			}
 		}
 		return result;
 	}
 
 	__testAll(message){
 		let result = true;
-		for(const [ruleName, rule] of this.getRules()){
-			if(!rule.test(message)){
+		for(let [key,rule] of this.getRules().entries()){
+			if(!rule.test(message) && key ){
 				return false;
 			}
 		}
@@ -76,8 +75,8 @@ class Sink extends CommonInform{
 
 	__testAny(message){
 		let result = false;
-		for(const [ruleName, rule] of this.getRules()){
-			if(rule.test(message)){
+		for(let [key,rule] of this.getRules().entries()){
+			if(rule.test(message) && key){
 				return true;
 			}
 		}

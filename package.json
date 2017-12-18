@@ -1,6 +1,6 @@
 {
     "name": "not-inform",
-    "version": "0.0.6",
+    "version": "0.0.7",
     "description": "not-* family inform interface for information supply/deploy",
     "main": "index.js",
     "scripts": {
@@ -38,7 +38,7 @@
         "istanbul": "*",
         "jsdoc": "^3.5.5",
         "mocha": "*",
-        "not-inform-rule-tag":"*",
-        "not-inform-sink-email":"*"
+        "not-inform-rule-tag": "*",
+        "not-inform-sink-email": "*"
     }
 }

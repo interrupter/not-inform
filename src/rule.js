@@ -10,7 +10,11 @@ class Rule{
 	* @return {boolean} if check passed
 	*/
 	criteria(){
-		return true;
+		if (this.options && this.options.hasOwnProperty('default')){
+			return this.options.default;
+		}else{
+			return true;
+		}
 	}
 
 	test(data){

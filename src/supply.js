@@ -1,6 +1,7 @@
 
 class Supply{
-	constructor(input){
+	constructor(options){
+		this.options = options;
 		return this;
 	}
 
@@ -8,7 +9,7 @@ class Supply{
 
 	}
 
-	
+
 }
 
 module.exports = Supply;
