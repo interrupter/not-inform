@@ -43,6 +43,10 @@ class Sink extends CommonInform{
 		this.__resume(SYM_RULE, ...arguments);
 	}
 
+	getRules(){
+		return this[SYN_RULE];
+	}
+
 }
 
 module.exports = Sink;

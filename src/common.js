@@ -3,9 +3,7 @@
  */
 
 const notPath = require('not-path'),
-	log = require('not-log')(module),
-	lowerCase = require('lower-case');
-
+	log = require('not-log')(module);
 
 class CommonInform{
 	constructor(){
