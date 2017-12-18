@@ -3,7 +3,7 @@
  */
 
 const notPath = require('not-path'),
-	log = require('not-log')(this),
+	log = require('not-log')(module),
 	lowerCase = require('lower-case');
 
 
