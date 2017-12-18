@@ -1,6 +1,6 @@
 {
     "name": "not-inform",
-    "version": "0.0.2",
+    "version": "0.0.3",
     "description": "not-* family inform interface for information supply/deploy",
     "main": "index.js",
     "scripts": {
@@ -27,6 +27,7 @@
     "homepage": "https://github.com/interrupter/not-inform#readme",
     "dependencies": {
         "not-path": "*",
+        "not-log": "*",
         "not-config": "*"
     },
     "devDependencies": {
