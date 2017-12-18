@@ -1,0 +1,30 @@
+{
+	"modules" :{
+		"inform":{
+			"sinks":{
+				"mailToRoot":{
+					"rules": {
+						"tag": {
+							"type": "tag",
+							"list": ["report", "error", "exception", "reoccurring", "flood"],
+							"any" : true
+						}
+					},
+					"type": "email",
+					"service": "Mail.ru",
+			        "auth": {
+			            "user": "test.mail.address@mail.ru",
+			            "pass": ""
+			        },
+					"from": "test"
+				},
+				"log":{
+					"rules": {
+						"tags": ["log"]
+					},
+					"prefix": "log"
+				}
+			}
+		}
+	}
+}
