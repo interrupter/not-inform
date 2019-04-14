@@ -60,7 +60,7 @@ describe("Sink", function() {
 				type: "test",
 				meet: "all"
 			});
-			sink.addRule('test',new Rule({default: false}));
+			sink.addRule('test', new Rule({default: false}));
 			sink.addRule('test1',new Rule({default: false}));
 			sink.addRule('test3',new Rule({default: false}));
 			expect(sink.test({}, false)).to.be.false;
@@ -95,7 +95,7 @@ describe("Sink", function() {
 				meet: "any"
 			});
 			sink.addRule('test',new Rule({}));
-			expect(sink.test({}, false)).to.be.true;
+			expect(sink.test({}, false)).to.be.ok;
 		});
 
 		it("one from many", function() {
@@ -106,7 +106,7 @@ describe("Sink", function() {
 			sink.addRule('test', new Rule({}));
 			sink.addRule('test1',new Rule({default: false}));
 			sink.addRule('test3',new Rule({default: false}));
-			expect(sink.test({}, true)).to.be.true;
+			expect(sink.test({}, true)).to.be.ok;
 		});
 
 		it("none from many", function() {

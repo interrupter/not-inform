@@ -1,5 +1,6 @@
 const CommonInform = require('./common.js');
 const SYM_RULE = Symbol('rule');
+
 class Sink extends CommonInform{
 	constructor(options){
 		super(options);
@@ -57,7 +58,11 @@ class Sink extends CommonInform{
 			default: 			result = this.__testAny(message);
 			}
 			if (result && autodeploy){
-				this.deploy(message);
+				if (result === true){
+					this.deploy(message);
+				}else{
+					this.deploy(message, result);
+				}
 			}
 		}
 		return result;
@@ -66,10 +71,10 @@ class Sink extends CommonInform{
 	/**
 	* Should be overriden by children
 	* @param {object} message complex object containing all sorts of data
+	* @param {object} rule options for active rule
 	*/
-
-	deploy(message){
-
+	deploy(message, rule = null){
+		return {message, rule};
 	}
 
 	__testAll(message){
@@ -86,7 +91,7 @@ class Sink extends CommonInform{
 		let result = false;
 		for(let [key,rule] of this.getRules().entries()){
 			if(rule.test(message) && key){
-				return true;
+				return rule;
 			}
 		}
 		return result;

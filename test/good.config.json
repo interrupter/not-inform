@@ -7,7 +7,7 @@
 					"rules": {
 						"1": {
 							"type": "tag",
-							"list": ["critical"]
+							"tags": ["critical"]
 						}
 					}
 				},
@@ -16,7 +16,7 @@
 					"rules": {
 						"1": {
 							"type": "tag",
-							"list": ["critical"]
+							"tags": ["critical"]
 						}
 					}
 				}

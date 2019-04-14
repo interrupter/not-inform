@@ -20,6 +20,10 @@ class Rule{
 	test(data){
 		return this.criteria(data);
 	}
+
+	getData(){
+		return Object.assign({}, this.options.data);
+	}
 }
 
 module.exports = Rule;

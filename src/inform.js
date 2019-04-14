@@ -35,7 +35,7 @@ class Inform extends CommonInform {
 
 	now(data){
 		for(const [key, sinkInst] of this[SYM_SINK].entries()){
-			sinkInst.test(data, true);
+			sinkInst.test(data, true, key);
 		}
 	}
 
