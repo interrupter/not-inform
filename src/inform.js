@@ -1,9 +1,10 @@
 /**
  * @module not-inform/inform
  */
+const MODULE_NAME = require('../package.json').name;
 const CommonInform = require('./common.js');
 const SYM_SINK = Symbol('sink');
-const log = require('not-log')(module, 'not-inform');
+const log = require('not-log')(module, );
 const notNode = require('not-node');
 
 class Inform extends CommonInform {
@@ -11,7 +12,7 @@ class Inform extends CommonInform {
 		super();
 		this[SYM_SINK] 	= 	new Map();
 		const App = notNode.Application;
-		App.on(`module:${moduleName}:options:updated`, this.reinit.bind(this));
+		App.on(`module:${MODULE_NAME}:options:updated`, this.reinit.bind(this));
 		this.loadConfig()
 			.then(this.init.bind(this))
 			.catch();
@@ -21,8 +22,7 @@ class Inform extends CommonInform {
 	async loadConfig(){
 		try{
 			const App = notNode.Application;
-			this.options = await App.getModel('Options').readModuleOptions('not-inform');
-			log.log(this.options);
+			this.options = await App.getModel('Options').readModuleOptions(MODULE_NAME);
 		}catch(e){
 			log.error(e);
 		}
@@ -37,6 +37,7 @@ class Inform extends CommonInform {
 				}
 			}
 		}
+		log.log('initialized');
 	}
 
 	initSink(options){
@@ -74,6 +75,7 @@ class Inform extends CommonInform {
 	}
 
 	reinit(){
+		log.log('reinit');
 		this.reset();
 		return this.loadConfig()
 			.then(this.init.bind(this))
