@@ -1,4 +1,10 @@
-exports.Inform = require('./inform.js');
-exports.Supply = require('./supply.js');
-exports.Sink = require('./sink.js');
-exports.Rule = require('./rule.js');
+
+module.exports = {
+  Inform: require('./inform.js'),
+  Supply: require('./supply.js'),
+  Sink: require('./sink.js'),
+  Rule: require('./rule.js'),
+  paths: {
+    controllers:  __dirname + '/controllers'
+  }
+};

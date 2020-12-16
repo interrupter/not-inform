@@ -5,8 +5,6 @@
 
 const log = require('not-log')(module);
 
-
-
 class CommonInform{
 	constructor(){
 		return this;
@@ -69,7 +67,7 @@ class CommonInform{
 
 	__getClass(domain, what){
 		try{
-			return require('not-inform-'+domain+'-'+what);
+			return require('not-inform-' + domain + '-' + what).getClass();
 		}catch(e){
 			//!TODO move to report
 			log && log.error(e);

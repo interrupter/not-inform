@@ -4,18 +4,25 @@
 const config = require('not-config').readerForModule('inform');
 const CommonInform = require('./common.js');
 const SYM_SINK = Symbol('sink');
+const log = require('not-log')(module, 'not-inform');
+const App = require('noe-node').Application;
 
 class Inform extends CommonInform {
 	constructor(){
 		super();
 		this[SYM_SINK] 	= 	new Map();
-		this.loadConfig();
-		this.init();
+		this.loadConfig()
+			.then(()=> this.init())
+			.catch();
 		return this;
 	}
 
-	loadConfig(){
-		this.options = config.get();
+	async loadConfig(){
+		try{
+			this.options = App.getModel('Options').readerForModule('not-inform');
+		}catch(e){
+			log.error(e);
+		}
 	}
 
 	init(){
