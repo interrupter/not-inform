@@ -1,4 +1,4 @@
-import ncInformOptions from '../common/ncInformOptions.js';
+import ncInformOptions from '../../common/ncInformOptions.js';
 
 let manifest = {
 	router: {

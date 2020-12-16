@@ -1,25 +1,28 @@
 /**
  * @module not-inform/inform
  */
-const config = require('not-config').readerForModule('inform');
 const CommonInform = require('./common.js');
 const SYM_SINK = Symbol('sink');
 const log = require('not-log')(module, 'not-inform');
-const App = require('noe-node').Application;
+const notNode = require('not-node');
 
 class Inform extends CommonInform {
 	constructor(){
 		super();
 		this[SYM_SINK] 	= 	new Map();
+		const App = notNode.Application;
+		App.on(`module:${moduleName}:options:updated`, this.reinit.bind(this));
 		this.loadConfig()
-			.then(()=> this.init())
+			.then(this.init.bind(this))
 			.catch();
 		return this;
 	}
 
 	async loadConfig(){
 		try{
-			this.options = App.getModel('Options').readerForModule('not-inform');
+			const App = notNode.Application;
+			this.options = await App.getModel('Options').readModuleOptions('not-inform');
+			log.log(this.options);
 		}catch(e){
 			log.error(e);
 		}
@@ -60,6 +63,21 @@ class Inform extends CommonInform {
 
 	resumeSink(){
 		this.__resume(SYM_SINK, ...arguments);
+	}
+
+	reset(){
+		if (this.options.sinks && Object.keys(this.options.sinks).length){
+			for(let i in this.options.sinks){
+				this.removeSink(i);
+			}
+		}
+	}
+
+	reinit(){
+		this.reset();
+		return this.loadConfig()
+			.then(this.init.bind(this))
+			.catch();
 	}
 }
 

@@ -1,5 +1,5 @@
-import CommonLocal from '../common/index.js';
-import Validators from '../common/validators.js';
+import CommonLocal from './index.js';
+import Validators from './validators.js';
 import {
 	notController,
 	Breadcrumbs,
@@ -8,7 +8,7 @@ import {
 } from 'not-bulma';
 
 
-import UIInformOptions from '../common/options.details.svelte';
+import UIInformOptions from './options.details.svelte';
 
 const LABELS = {
 	plural: 'Настройки',

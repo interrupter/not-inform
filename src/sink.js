@@ -55,7 +55,7 @@ class Sink extends CommonInform{
 			switch(this.options.meet){
 			case this.OPT_ALL: 	result = this.__testAll(message);	break;
 			case this.OPT_ANY:
-			default: 			result = this.__testAny(message);
+			default: 						result = this.__testAny(message);
 			}
 			if (result && autodeploy){
 				if (result === true){

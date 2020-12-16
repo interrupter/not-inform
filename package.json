@@ -1,8 +1,8 @@
 {
     "name": "not-inform",
-    "version": "0.0.11",
+    "version": "0.0.12",
     "description": "not-* family inform interface for information supply/deploy",
-    "main": "index.js",
+    "main": "./src/index.js",
     "scripts": {
         "test": "./node_modules/.bin/mocha --reporter spec",
         "pretest": "./node_modules/.bin/eslint ./src/**/**",

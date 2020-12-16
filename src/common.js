@@ -70,7 +70,7 @@ class CommonInform{
 			return require('not-inform-' + domain + '-' + what).getClass();
 		}catch(e){
 			//!TODO move to report
-			log && log.error(e);
+			log && log.error('while accessing: not-inform-' + domain + '-' + what) && log.error(e);
 			return false;
 		}
 	}

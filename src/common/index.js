@@ -1,7 +1,7 @@
 export default class Common {
   static MODULE = {
     name: 'not-inform',
-    label: 'Управление заказами'
+    label: 'Информер'
   };
   static DEFAULT_REDIRECT_TIMEOUT = 5000;
   static CLASS_OK = 'is-success';
@@ -35,9 +35,8 @@ export default class Common {
           pass: ''
         }
       },
-      rules: {
-
-      }
+      meet: 'any',
+      rules: {}
     };
   }
 };

@@ -17,21 +17,14 @@
   onMount(()=>{
     sinks = [];
     if (options.sinks){
-      Object.keys(options.sinks).forEach((key)=>{
-        sinks.push(
-        {
-          id:     key,
-          value:  options.sinks[key]
-        }
-        );
-      });
+      sinks = [...Object.values(options.sinks)];
     }
   });
 
   function refreshOptions(){
     options.sinks = {};
     sinks.forEach((sink) => {
-      options.sinks[sink.id] = sink.value;
+      options.sinks[sink.id] = sink;
     });
   }
 
@@ -41,10 +34,7 @@
   }
 
   function addSink(){
-    sinks.unshift({
-      id: 'sink-' + sinks.length,
-      value: CommonLocal.getDefaultSink()
-    });
+    sinks.unshift(CommonLocal.getDefaultSink());
     sinks = sinks;
     refreshOptions();
   }
@@ -75,7 +65,7 @@
 </div>
 {#if sinks && sinks.length }
   {#each sinks as sink, index}
-  <UISinkOptions {index} id={sink.id} value={sink.value}  on:delete={removeSink}/>
+  <UISinkOptions {index} value={sink}  on:delete={removeSink}/>
   {/each}
 {/if}
 
