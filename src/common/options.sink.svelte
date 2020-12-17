@@ -9,6 +9,7 @@
   export let readonly = false;
   export let disabled = false;
   export let index = -1;
+  export let showContent = false;
   export let value = {
     id:     'some-rule',
     type:   'email',
@@ -74,8 +75,26 @@
 
 </script>
 
-<div>
-  <h4 class="title is-4">Назначение: {value.id} <a href class="delete" on:click={deleteThis}></a></h4>
+<div class="box has-background-light">
+  <div class="field is-horizontal">
+    <div class="field-label">
+      <h4 class="title is-4">{value.id}</h4>
+    </div>
+    <div class="field-body">
+      <div class="field">
+        <div class="control">
+          <input type="checkbox" class="switch" id="showContent-edit-sink-options-{value.id}" bind:checked={showContent} name="showContent" />
+          <label class="label" for="showContent-edit-sink-options-{value.id}">Показать</label>
+        </div>
+      </div>
+      <div class="field">
+        <div class="control">
+          <button class="button is-danger" on:click={deleteThis}>Удалить</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  {#if showContent }
   <div>
     <div class="field is-horizontal">
       <div class="field-label">
@@ -185,4 +204,5 @@
     </div>
     {/if}
   </div>
+  {/if}
 </div>
