@@ -2,12 +2,18 @@
   import {onMount, createEventDispatcher } from 'svelte';
   let dispatch = createEventDispatcher();
   export let index = -1;
-  export let id ='';
+  export let id = '';
   export let value = {};
   export let readonly = false;
   export let disabled = false;
   let newTag = '';
   export let showContent = false;
+
+  onMount(()=>{
+    if(typeof value.id === 'undefined'){
+      value.id = 'Rule';
+    }
+  });
 
   function deleteTag(e){
     e && e.preventDefault();

@@ -30,6 +30,9 @@
   let rules = [];
 
   onMount(()=>{
+    if(typeof value.id === 'undefined'){
+      value.id = 'Sink';
+    }
     rules = [];
     if (value.rules){
       Object.keys(value.rules).forEach((key)=>{

@@ -9,8 +9,8 @@
   export let title = '';
   export let subtitle = '';
 
-  export let readonly = false;
-  export let disabled = false;
+  //export let readonly = false;
+  //export let disabled = false;
 
   let sinks = [];
 
