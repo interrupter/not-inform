@@ -4,7 +4,7 @@
 const MODULE_NAME = require('../package.json').name;
 const CommonInform = require('./common.js');
 const SYM_SINK = Symbol('sink');
-const log = require('not-log')(module, );
+const log = require('not-log')(module, MODULE_NAME);
 const notNode = require('not-node');
 
 class Inform extends CommonInform {
@@ -23,13 +23,16 @@ class Inform extends CommonInform {
 		try{
 			const App = notNode.Application;
 			this.options = await App.getModel('Options').readModuleOptions(MODULE_NAME);
+			if(typeof this.options === 'undefined' || this.options === null){
+				this.options = {};
+			}
 		}catch(e){
 			log.error(e);
 		}
 	}
 
 	init(){
-		if (this.options.sinks && Object.keys(this.options.sinks).length){
+		if (this.options && this.options.sinks && Object.keys(this.options.sinks).length){
 			for(let i in this.options.sinks){
 				let newSink = this.initSink(this.options.sinks[i]);
 				if (newSink){
@@ -67,7 +70,7 @@ class Inform extends CommonInform {
 	}
 
 	reset(){
-		if (this.options.sinks && Object.keys(this.options.sinks).length){
+		if (this.options && this.options.sinks && Object.keys(this.options.sinks).length){
 			for(let i in this.options.sinks){
 				this.removeSink(i);
 			}
