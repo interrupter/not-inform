@@ -13,13 +13,15 @@ let manifest = {
 		side:{
 			sections: [{
 				id: 		'inform',
-				title: 	'Информер'
+				title: 	'Информер',
+				place: 	'end'
 			}],
 			items:		[{
+				id: 			'inform.options',
+        section: 	'inform',
 				priority: 1,
-        section: 'inform',
-        title: 	'Настройки',
-        url: 		'/inform/options'
+        title: 		'Настройки',
+        url: 			'/inform/options'
       }]
 		}
 	}
