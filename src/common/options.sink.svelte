@@ -122,7 +122,7 @@
             <div class="select" id="edit-sink-options-{value.id}-type">
               <select bind:value={value.type} {readonly} {disabled}>
                 <option value="email">Email</option>
-                <!--<option value="sms">SMS</option>-->
+                <option value="notification">Notification</option>
               </select>
             </div>
           </div>
@@ -172,6 +172,8 @@
         </div>
       </div>
     </div>
+    {:else if value.type === 'notification'}
+    <div class="notification is-warning">Настройки извещений отсутствуют.</div>
     {:else if value.type === 'sms'}
     <div class="notification is-warning">Интерфейс недоступен.</div>
     {/if}
