@@ -6,11 +6,18 @@
   import CommonLocal from './index.js';
   let dispatch = createEventDispatcher();
 
+  import {
+    writable
+  } from 'svelte/store';
+
+  const rulesStore = writable({});
+
   export let readonly = false;
   export let disabled = false;
   export let index = -1;
   export let showContent = false;
   export let value = {
+    _id: Math.random().toString().slice(3, 10),
     id:     'some-rule',
     type:   'email',
     account: {
@@ -27,46 +34,38 @@
     }
   };
 
-  let rules = [];
-
   onMount(()=>{
-    if(typeof value.id === 'undefined'){
+    if(typeof value.id === 'undefined' || value.id === 'undefined'){
       value.id = 'Sink';
     }
-    rules = [];
-    if (value.rules){
-      Object.keys(value.rules).forEach((key)=>{
-        rules.push(
-        {
-          id:     key,
-          value:  value.rules[key]
+    $rulesStore = [...Object.values(value.rules)];
+    $rulesStore.forEach((val)=>{
+      if(!val._id){
+        val._id = Math.random().toString().slice(3, 10);
+      }
+    });
+    rulesStore.subscribe((val)=>{
+      let res = {};
+      Object.values(val).forEach(rule => {
+        if(Object.prototype.hasOwnProperty.call(res,rule.id)){
+          rule.id = rule.id + '-' + 1;
         }
-        );
+        res[rule.id] = rule;
       });
-    }
+      value.rules = res;
+      value = value;
+    });
   });
 
-  function refreshOptions(){
-    value.rules = {};
-    rules.forEach((rule) => {
-      value.rules[rule.id] = rule.value;
-    });
-  }
-
   function addRule(){
-    rules.unshift({
-      id: 'rule-' + Math.random().toString().slice(0, 10),
-      value: CommonLocal.getDefaultRule()
-    });
-    rules = rules;
-    refreshOptions();
+    $rulesStore.unshift({...CommonLocal.getDefaultRule()});
+    $rulesStore = $rulesStore;
   }
 
   function removeRule(e){
     if (e.detail.index > -1){
-      rules.splice(e.detail.index, 1);
-      rules = rules;
-      refreshOptions();
+      $rulesStore.splice(e.detail.index, 1);
+      $rulesStore = $rulesStore;
     }
   }
 
@@ -86,8 +85,8 @@
     <div class="field-body">
       <div class="field">
         <div class="control">
-          <input type="checkbox" class="switch" id="showContent-edit-sink-options-{value.id}" bind:checked={showContent} name="showContent" />
-          <label class="label" for="showContent-edit-sink-options-{value.id}">Показать</label>
+          <input type="checkbox" class="switch" id="showContent-edit-sink-options-{value._id}" bind:checked={showContent} name="showContent" />
+          <label class="label" for="showContent-edit-sink-options-{value._id}">Показать</label>
         </div>
       </div>
       <div class="field">
@@ -204,10 +203,10 @@
         </div>
       </div>
     </div>
-    {#if rules && rules.length }
+    {#if $rulesStore && $rulesStore.length }
     <div class="pl-6">
-    {#each rules as rule, index}
-    <UIRuleOptions {index} id={rule.id} bind:value={rule.value} on:delete={removeRule} />
+    {#each $rulesStore as rule, index(rule._id)}
+    <UIRuleOptions {index} id={rule._id} bind:value={rule} on:delete={removeRule} />
     {/each}
     </div>
     {/if}

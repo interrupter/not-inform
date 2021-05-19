@@ -11,6 +11,8 @@ export default class Common {
   }
   static getDefaultRule() {
     return {
+      id: 'new-rule',
+      _id: Math.random().toString().slice(3, 10),
       "type": "tag",
       "tags": [],
       "data": {
@@ -25,6 +27,8 @@ export default class Common {
   }
   static getDefaultSink() {
     return {
+      id: 'new-sink',
+      _id: Math.random().toString().slice(3, 10),
       type: 'email',
       account: {
         host: '',

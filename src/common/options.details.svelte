@@ -2,6 +2,12 @@
   import {onMount, createEventDispatcher } from 'svelte';
   import UISinkOptions from './options.sink.svelte';
   import CommonLocal from './index.js';
+  import {
+    writable
+  } from 'svelte/store';
+
+  const optionsStore = writable({});
+
 	let dispatch = createEventDispatcher();
 
   export let options = {};
@@ -9,42 +15,46 @@
   export let title = '';
   export let subtitle = '';
 
-  //export let readonly = false;
-  //export let disabled = false;
-
-  let sinks = [];
-
   onMount(()=>{
-    sinks = [];
-    if (options.sinks){
-      sinks = [...Object.values(options.sinks)];
+    $optionsStore = [];
+    if(Array.isArray(options)){
+      options = {
+        sinks: options
+      };
     }
+    $optionsStore = [...Object.values(options.sinks)];
+    $optionsStore.forEach((val)=>{
+      if(!val._id){
+        val._id = Math.random().toString().slice(3, 10);
+      }
+    });
+    optionsStore.subscribe((val)=>{
+      let res = {};
+      Object.values(val).forEach(sink => {
+        if(Object.prototype.hasOwnProperty.call(res, sink.id)){
+          sink.id = sink.id + '-' + 1;
+        }
+        res[sink.id] = sink;
+      });
+      options.sinks = res;
+      options = options;
+    });
   });
 
-  function refreshOptions(){
-    options.sinks = {};
-    sinks.forEach((sink) => {
-      options.sinks[sink.id] = sink;
-    });
-  }
-
   function saveToServer(){
-    refreshOptions();
     dispatch('save', options);
   }
 
   function addSink(){
-    sinks.unshift({...CommonLocal.getDefaultSink()});
-    sinks = sinks;
-    refreshOptions();
+    $optionsStore.unshift({...CommonLocal.getDefaultSink()});
+    $optionsStore = $optionsStore;
   }
 
   function removeSink(e){
     if (e.detail.index > -1){
-      sinks.splice(e.detail.index, 1);
-      sinks = sinks;
-      refreshOptions();
+      $optionsStore.splice(e.detail.index, 1);
     }
+    $optionsStore = $optionsStore;
   }
 
 </script>
@@ -63,8 +73,8 @@
     </div>
   </div>
 </div>
-{#if sinks && sinks.length }
-  {#each sinks as sink, index}
+{#if $optionsStore }
+  {#each $optionsStore as sink, index(sink._id) }
   <UISinkOptions {index} bind:value={sink}  on:delete={removeSink}/>
   {/each}
 {/if}
