@@ -55,7 +55,7 @@
 
   function addRule(){
     rules.unshift({
-      id: 'rule-' + rules.length,
+      id: 'rule-' + Math.random().toString().slice(0, 10),
       value: CommonLocal.getDefaultRule()
     });
     rules = rules;
@@ -204,7 +204,7 @@
     {#if rules && rules.length }
     <div class="pl-6">
     {#each rules as rule, index}
-    <UIRuleOptions {index} id={rule.id} value={rule.value} on:delete={removeRule} />
+    <UIRuleOptions {index} id={rule.id} bind:value={rule.value} on:delete={removeRule} />
     {/each}
     </div>
     {/if}

@@ -78,12 +78,8 @@ class ncInformOptions extends notController {
 		this.route(this.getOptions('params'));
 	}
 
-	getModel() {
-		return this.make[this.getModelName()];
-	}
-
 	createDefault() {
-		let newRecord = this.getModel()({
+		let newRecord = this.getModel({
 			'_id': null,
 			title: this.getOptions('names.single'),
 			products: []
@@ -93,7 +89,7 @@ class ncInformOptions extends notController {
 
 	async route() {
 		try {
-			this.getModel()({
+			this.getModel({
 					moduleName: CommonLocal.MODULE.name.toLowerCase()
 				}).$getForModule()
 				.then((res) => {
@@ -127,7 +123,7 @@ class ncInformOptions extends notController {
 	saveToServer(options){
 		try {
 			if(this.ui.message){	this.ui.message.$destroy();	}
-			this.getModel()({
+			this.getModel({
 					moduleName: CommonLocal.MODULE.name.toLowerCase(),
 					options
 				}).$updateForModule()

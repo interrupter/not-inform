@@ -34,7 +34,7 @@
   }
 
   function addSink(){
-    sinks.unshift(CommonLocal.getDefaultSink());
+    sinks.unshift({...CommonLocal.getDefaultSink()});
     sinks = sinks;
     refreshOptions();
   }
@@ -65,7 +65,7 @@
 </div>
 {#if sinks && sinks.length }
   {#each sinks as sink, index}
-  <UISinkOptions {index} value={sink}  on:delete={removeSink}/>
+  <UISinkOptions {index} bind:value={sink}  on:delete={removeSink}/>
   {/each}
 {/if}
 
