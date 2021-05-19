@@ -123,6 +123,7 @@
               <select bind:value={value.type} {readonly} {disabled}>
                 <option value="email">Email</option>
                 <option value="notification">Notification</option>
+                <option value="ws">WebSockets</option>
               </select>
             </div>
           </div>
@@ -172,6 +173,8 @@
         </div>
       </div>
     </div>
+    {:else if value.type === 'ws'}
+    <div class="notification is-warning">Настройки WS отсутствуют.</div>
     {:else if value.type === 'notification'}
     <div class="notification is-warning">Настройки извещений отсутствуют.</div>
     {:else if value.type === 'sms'}
