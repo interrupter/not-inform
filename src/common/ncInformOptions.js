@@ -19,6 +19,8 @@ const MODEL = 'options';
 const BREADCRUMBS = [];
 
 class ncInformOptions extends notController {
+	static MODULE_NAME = 'inform';
+	static MODEL_NAME = 'options';
 	constructor(app, params, schemes) {
 		super(app, MODEL);
 		this.ui = {};

@@ -140,6 +140,18 @@
     </div>
     <div class="field is-horizontal">
       <div class="field-label">
+        <label class="label" for="edit-sink-rule-{value._id}-data-templates-link">URL</label>
+      </div>
+      <div class="field-body">
+        <div class="field">
+          <p class="control is-narrow">
+            <input id="edit-sink-rule-{value._id}-data-templates-link" class="input is-success" type="text" placeholder="" bind:value={value.data.templates.link} {readonly} {disabled} />
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="field is-horizontal">
+      <div class="field-label">
         <label class="label" for="edit-sink-rule-{value._id}-data-templates-text">Текстовая версия</label>
       </div>
       <div class="field-body">
