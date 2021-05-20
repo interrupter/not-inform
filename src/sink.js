@@ -1,7 +1,15 @@
 const CommonInform = require('./common.js');
 const SYM_RULE = Symbol('rule');
+const notNode = require('not-node');
+const log = require('not-log')(module, 'notInformSink');
+
+
+const RECIPIENTS_BATCH_LIMIT = 100;		//items to retrieve at once
+const BATCHING_INTERVAL = 60;					//seconds to wait between deployin next batch
 
 class Sink extends CommonInform{
+	static RECIPIENTS_BATCH_LIMIT = RECIPIENTS_BATCH_LIMIT;
+	static BATCHING_INTERVAL = BATCHING_INTERVAL;
 	constructor(options){
 		super(options);
 		this.OPT_ANY = 'any';
@@ -95,6 +103,72 @@ class Sink extends CommonInform{
 			}
 		}
 		return result;
+	}
+
+	extractRecipient(rule){
+		return rule.recipient;
+	}
+
+	extendFilter(target, src){
+		if(src){
+			if(src.modelName && src.filter){
+				Object.assign(target.filter, {...src.filter});
+				target.modelName =  src.modelName;
+			}else{
+				Object.assign(target.filter, {...src});
+			}
+		}
+		return target;
+	}
+
+	getRecipientsFilter(message, rule){
+		const target = {
+			modelName: 	'User',
+			filter: {}
+		},
+			recipientRule = this.extractRecipient(rule),
+			recipientMessage = this.extractRecipient(message);
+		this.extendFilter(target, recipientRule);
+		this.extendFilter(target, recipientMessage);
+		return target;
+	}
+
+	/**
+	*	{object} filter = {
+	*		{string} modelName,
+	*		{object} filter
+	*	}
+	*/
+	findRecipients(target){
+		const model = notNode.Application.getModel(target.modelName);
+		if(model){
+			//doing only one batch
+			return model.list(0, this.RECIPIENTS_BATCH_LIMIT, {}, target.filter);
+		}else{
+			log.error(`target.modelName (${target.modelName}) is not exists`);
+		}
+		return Promise.resolve([]);
+	}
+
+	async deployCycle(message, rule){
+		const recipientsFilter = this.getRecipientsFilter(message, rule);
+		const recipients = await this.findRecipients(recipientsFilter);
+		if(recipients.length){
+			for(let index in recipients){
+				try{
+					let recipient = recipients[index];
+					await this.deployOne({
+						message,
+						rule,
+						recipient,
+						recipientsFilter,
+						index
+					});
+				}catch(e){
+					log.error(`deployOne is failed`, e);
+				}
+			}
+		}
 	}
 
 }

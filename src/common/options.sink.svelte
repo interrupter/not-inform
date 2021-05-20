@@ -100,7 +100,7 @@
   <div>
     <div class="field is-horizontal">
       <div class="field-label">
-        <label class="label" for="edit-sink-options-{value.id}-id">ID</label>
+        <label class="label" for="edit-sink-options-{value._id}-id">ID</label>
       </div>
       <div class="field-body">
         <div class="field">
@@ -113,12 +113,12 @@
 
     <div class="field is-horizontal">
       <div class="field-label">
-        <label class="label" for="edit-sink-options-{value.id}-type">Тип</label>
+        <label class="label" for="edit-sink-options-{value._id}-type">Тип</label>
       </div>
       <div class="field-body">
         <div class="field">
           <div class="control is-narrow">
-            <div class="select" id="edit-sink-options-{value.id}-type">
+            <div class="select" id="edit-sink-options-{value._id}-type">
               <select bind:value={value.type} {readonly} {disabled}>
                 <option value="email">Email</option>
                 <option value="notification">Notification</option>
@@ -134,12 +134,12 @@
     <h5 class="title is-5">Аккаунт</h5>
     <div class="field is-horizontal">
       <div class="field-label">
-        <label class="label" for="edit-sink-options-{value.id}-account-host">Сервер</label>
+        <label class="label" for="edit-sink-options-{value._id}-account-host">Сервер</label>
       </div>
       <div class="field-body">
         <div class="field">
           <p class="control is-narrow">
-            <input class="input is-success" id="edit-sink-options-{value.id}-account-host" type="text" placeholder="host" bind:value={value.account.host} {readonly} {disabled} />
+            <input class="input is-success" id="edit-sink-options-{value._id}-account-host" type="text" placeholder="host" bind:value={value.account.host} {readonly} {disabled} />
           </p>
         </div>
         <div class="field">
@@ -149,20 +149,20 @@
         </div>
         <div class="field">
           <p class="control is-narrow">
-            <input type="checkbox" class="switch" id="edit-sink-options-{value.id}-account-secure" bind:checked={value.account.secure} name="account.secure" {readonly} {disabled} />
-            <label class="label" for="edit-sink-options-{value.id}-account-secure">Secure</label>
+            <input type="checkbox" class="switch" id="edit-sink-options-{value._id}-account-secure" bind:checked={value.account.secure} name="account.secure" {readonly} {disabled} />
+            <label class="label" for="edit-sink-options-{value._id}-account-secure">Secure</label>
           </p>
         </div>
       </div>
     </div>
     <div class="field is-horizontal">
       <div class="field-label">
-        <label class="label" for="edit-sink-options-{value.id}-account-host">Логин/пароль</label>
+        <label class="label" for="edit-sink-options-{value._id}-account-host">Логин/пароль</label>
       </div>
       <div class="field-body">
         <div class="field">
           <p class="control is-narrow">
-            <input class="input is-success" id="edit-sink-options-{value.id}-account-user" type="text" placeholder="username" bind:value={value.account.auth.user} {readonly} {disabled} />
+            <input class="input is-success" id="edit-sink-options-{value._id}-account-user" type="text" placeholder="username" bind:value={value.account.auth.user} {readonly} {disabled} />
           </p>
         </div>
         <div class="field">
@@ -173,7 +173,18 @@
       </div>
     </div>
     {:else if value.type === 'ws'}
-    <div class="notification is-warning">Настройки WS отсутствуют.</div>
+    <div class="field is-horizontal">
+      <div class="field-label">
+        <label class="label" for="edit-sink-options-{value._id}-event-name">Событие для вызова</label>
+      </div>
+      <div class="field-body">
+        <div class="field">
+          <p class="control is-narrow">
+            <input class="input is-success" id="edit-sink-options-{value._id}-event-name" type="text" placeholder="module/event" bind:value={value.eventName} {readonly} {disabled} />
+          </p>
+        </div>
+      </div>
+    </div>
     {:else if value.type === 'notification'}
     <div class="notification is-warning">Настройки извещений отсутствуют.</div>
     {:else if value.type === 'sms'}
@@ -183,12 +194,12 @@
     <h4 class="title is-4">Правила</h4>
     <div class="field is-horizontal">
       <div class="field-label">
-        <label class="label" for="edit-sink-options-{value.id}-account-host">Соотвествие</label>
+        <label class="label" for="edit-sink-options-{value._id}-account-host">Соотвествие</label>
       </div>
       <div class="field-body">
         <div class="field">
           <div class="control is-narrow">
-            <div class="select" id="edit-sink-options-{value.id}-meet">
+            <div class="select" id="edit-sink-options-{value._id}-meet">
               <select bind:value={value.meet} {readonly} {disabled}>
                 <option value="all">Всем</option>
                 <option value="any">Любому</option>

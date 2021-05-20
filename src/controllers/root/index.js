@@ -3,10 +3,7 @@ import ncInformOptions from '../../common/ncInformOptions.js';
 let manifest = {
 	router: {
 		manifest: [
-			{
-				paths: ['inform/options'],
-				controller: ncInformOptions
-			}
+			ncInformOptions.getRoutes()
 		]
 	},
 	menu: {
