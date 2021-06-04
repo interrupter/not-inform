@@ -10,14 +10,14 @@ let manifest = {
 		side:{
 			sections: [{
 				id: 		'inform',
-				title: 	'Информер',
+				title: 	'not-inform:menuTitle',
 				place: 	'end'
 			}],
 			items:		[{
 				id: 			'inform.options',
         section: 	'inform',
 				priority: 1,
-        title: 		'Настройки',
+        title: 		'not-inform:menuTitleOptions',
         url: 			'/inform/options'
       }]
 		}
