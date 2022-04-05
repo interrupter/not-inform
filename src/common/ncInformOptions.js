@@ -1,12 +1,17 @@
 import CommonLocal from './index.js';
 import Validators from './validators.js';
-import {
-	notController,
-	Breadcrumbs,
+
+import {Frame, Elements} from 'not-bulma';
+
+const {
+	notBreadcrumbs,
+	notController
+} = Frame;
+
+const {
 	UIError,
 	UISuccess,
-} from 'not-bulma';
-
+} = Elements.Notifications;
 
 import UIInformOptions from './options.details.svelte';
 
@@ -61,7 +66,7 @@ class ncInformOptions extends notController {
 	}
 
 	setBreadcrumbs(tail) {
-		Breadcrumbs.setTail(tail).update();
+		notBreadcrumbs.setTail(tail).update();
 	}
 
 	start() {
@@ -72,7 +77,7 @@ class ncInformOptions extends notController {
 			title: this.getOptions('names.plural'),
 			url: this.getModelURL()
 		});
-		Breadcrumbs.setHead(BREADCRUMBS).render({
+		notBreadcrumbs.setHead(BREADCRUMBS).render({
 			root: '',
 			target: this.els.top,
 			navigate: (url) => this.app.getWorking('router').navigate(url)

@@ -1,6 +1,6 @@
 {
     "name": "not-inform",
-    "version": "0.0.27",
+    "version": "0.0.28",
     "description": "not-* family inform interface for information supply/deploy",
     "main": "./src/index.js",
     "scripts": {
@@ -15,7 +15,7 @@
         "url": "git+https://github.com/interrupter/not-inform.git"
     },
     "keywords": [
-        "not-framework",
+        "not-bulma",
         "not-node",
         "inform"
     ],
