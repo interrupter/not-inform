@@ -3,6 +3,7 @@ const SYM_RULE = Symbol('rule');
 const notNode = require('not-node');
 const log = require('not-log')(module, 'notInformSink');
 
+const {notInformExceptionDeployOneFailed, notInformExceptionDeployCycleFailed} = require('./exceptions');
 
 const RECIPIENTS_BATCH_LIMIT = 100;		//items to retrieve at once
 const BATCHING_INTERVAL = 60;					//seconds to wait between deployin next batch
@@ -151,24 +152,28 @@ class Sink extends CommonInform{
 	}
 
 	async deployCycle(message, rule){
-		const recipientsFilter = this.getRecipientsFilter(message, rule);
-		const recipients = await this.findRecipients(recipientsFilter);
-		if(recipients.length){
-			for(let index in recipients){
-				try{
-					let recipient = recipients[index];
-					await this.deployOne({
-						message,
-						rule,
-						recipient,
-						recipientsFilter,
-						index
-					});
-				}catch(e){
-					log.error(`deployOne is failed`, e);
+		try{
+			const recipientsFilter = this.getRecipientsFilter(message, rule);
+			const recipients = await this.findRecipients(recipientsFilter);
+			if(recipients.length){
+				for(let index in recipients){
+					try{
+						let recipient = recipients[index];
+						await this.deployOne({
+							message,
+							rule,
+							recipient,
+							recipientsFilter,
+							index
+						});
+					}catch(e){
+						notNode.Application.report(new notInformExceptionDeployOneFailed({rule, message}, e))					
+					}
 				}
 			}
-		}
+		}catch(e){
+			notNode.Application.report(new notInformExceptionDeployCycleFailed({rule, message}, e))					
+		}		
 	}
 
 }

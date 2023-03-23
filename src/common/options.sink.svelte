@@ -1,6 +1,7 @@
 <script>
     import "bulma-switch";
-    import { Frame, Elements } from "not-bulma";
+    import { Frame, Elements, notCommon } from "not-bulma";
+
     const { COMPONENTS } = Frame;
     const { UITitle } = Elements.Various;
     import { onMount, createEventDispatcher } from "svelte";
@@ -80,7 +81,7 @@
 
     function deleteThis(e) {
         e.preventDefault();
-        dispatch("delete", { index, id, value });
+        dispatch("delete", { index, id: value.id, value });
         return false;
     }
 </script>
@@ -104,7 +105,7 @@
             </div>
         </div>
         <div class="column">
-            <UITitle bind:title={value.id} size={4} />
+            <UITitle title={`${value.id} (${value.type})`} size={4} />
         </div>
         <div class="column is-2">
             <div class="control">
@@ -169,113 +170,21 @@
                 </div>
             </div>
 
-            {#if value.type === "email"}
-                <h5 class="title is-5">Аккаунт</h5>
-                <div class="field is-horizontal">
-                    <div class="field-label">
-                        <label
-                            class="label"
-                            for="edit-sink-options-{value._id}-account-host"
-                            >Сервер</label
-                        >
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <p class="control is-narrow">
-                                <input
-                                    class="input is-success"
-                                    id="edit-sink-options-{value._id}-account-host"
-                                    type="text"
-                                    placeholder="host"
-                                    bind:value={value.account.host}
-                                    {readonly}
-                                    {disabled}
-                                />
-                            </p>
-                        </div>
-                        <div class="field">
-                            <p class="control is-narrow">
-                                <input
-                                    class="input is-success"
-                                    type="text"
-                                    placeholder="port"
-                                    bind:value={value.account.port}
-                                    {readonly}
-                                    {disabled}
-                                />
-                            </p>
-                        </div>
-                        <div class="field">
-                            <p class="control is-narrow">
-                                <input
-                                    type="checkbox"
-                                    class="switch"
-                                    id="edit-sink-options-{value._id}-account-secure"
-                                    bind:checked={value.account.secure}
-                                    name="account.secure"
-                                    {readonly}
-                                    {disabled}
-                                />
-                                <label
-                                    class="label"
-                                    for="edit-sink-options-{value._id}-account-secure"
-                                    >Secure</label
-                                >
-                            </p>
-                        </div>
-                    </div>
-                </div>
-                <div class="field is-horizontal">
-                    <div class="field-label">
-                        <label
-                            class="label"
-                            for="edit-sink-options-{value._id}-account-host"
-                            >Логин/пароль</label
-                        >
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <p class="control is-narrow">
-                                <input
-                                    class="input is-success"
-                                    id="edit-sink-options-{value._id}-account-user"
-                                    type="text"
-                                    placeholder="username"
-                                    bind:value={value.account.auth.user}
-                                    {readonly}
-                                    {disabled}
-                                />
-                            </p>
-                        </div>
-                        <div class="field">
-                            <p class="control is-narrow">
-                                <input
-                                    class="input is-success"
-                                    type="password"
-                                    placeholder="password"
-                                    bind:value={value.account.auth.pass}
-                                    {readonly}
-                                    {disabled}
-                                />
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            {:else if value.type === "ws"}
+            {#if value.type && COMPONENTS.get(`UIInformSink${notCommon.capitalizeFirstLetter(value.type)}Settings`)}
                 <svelte:component
                     this={COMPONENTS.get(
-                        `UIInformSink${value.type.toUpperCase()}Settings`
+                        `UIInformSink${notCommon.capitalizeFirstLetter(
+                            value.type
+                        )}Settings`
                     )}
                     {readonly}
                     {disabled}
                     bind:value
                 />
-            {:else if value.type === "notification"}
+            {:else if value.type}
                 <div class="notification is-warning">
-                    Настройки извещений отсутствуют.
+                    Интерфейс недоступен для `{value.type}`.
                 </div>
-            {:else if value.type === "sms"}
-                <div class="notification is-warning">Интерфейс недоступен.</div>
             {/if}
 
             <h4 class="title is-4">Правила</h4>

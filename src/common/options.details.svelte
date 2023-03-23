@@ -1,4 +1,7 @@
 <script>
+    import { Elements } from "not-bulma";
+    const { UIButtons } = Elements.Buttons;
+    const { UITitle } = Elements.Various;
     import { onMount, createEventDispatcher } from "svelte";
     import UISinkOptions from "./options.sink.svelte";
     import CommonLocal from "./index.js";
@@ -48,8 +51,8 @@
         $optionsStore = $optionsStore;
     }
 
-    function exportAll() {}
-    function importAll() {}
+    /*   function exportAll() {}
+    function importAll() {}*/
 
     function removeSink(e) {
         if (e.detail.index > -1) {
@@ -59,26 +62,29 @@
     }
 </script>
 
-<h2 class="title is-2">{title}</h2>
-<h3 class="subtitle is-3">{subtitle}</h3>
-<div class="field is-horizontal">
-    <div class="field-label">
-        <!-- Left empty for spacing -->
-    </div>
-    <div class="field-body">
-        <div class="field">
-            <div class="control">
-                <button class="button is-primary" on:click={addSink}
-                    >Добавить назначение</button
-                >
-                <button class="button is-primary" on:click={exportAll}
-                    >Экспорт</button
-                >
-                <button class="button is-primary" on:click={importAll}
-                    >Импорт</button
-                >
-            </div>
-        </div>
+<UITitle {title} {subtitle} size={3} />
+<div class="columns">
+    <div class="column">
+        <UIButtons
+            centered={true}
+            values={[
+                {
+                    color: "primary",
+                    action: addSink,
+                    title: "Добавить",
+                },
+                /*{
+                    color: "primary",
+                    action: exportAll,
+                    title: "Экспорт",
+                },
+                {
+                    color: "primary",
+                    action: importAll,
+                    title: "Импорт",
+                },*/
+            ]}
+        />
     </div>
 </div>
 {#if $optionsStore}
