@@ -1,4 +1,9 @@
 <script>
+    import { Elements } from "not-bulma";
+
+    const { UITitle } = Elements.Various;
+    const { UIButtons } = Elements.Buttons;
+
     import { createEventDispatcher } from "svelte";
     let dispatch = createEventDispatcher();
     export let index = -1;
@@ -45,10 +50,7 @@
 
 <div class="box">
     <div class="columns">
-        <div class="column">
-            <h5 class="title is-5">{value.id}</h5>
-        </div>
-        <div class="column">
+        <div class="column is-3">
             <div class="control">
                 <input
                     type="checkbox"
@@ -65,13 +67,26 @@
             </div>
         </div>
         <div class="column">
-            <div class="control buttons">
-                <button class="button is-warning" on:click={duplicateThis}
-                    >Сделать копию</button
-                >
-                <button class="button is-danger" on:click={deleteThis}
-                    >Удалить</button
-                >
+            <UITitle bind:title={value.id} size={5} />
+        </div>
+        <div class="column is-3">
+            <div class="control">
+                <UIButtons
+                    values={[
+                        {
+                            size: "small",
+                            color: "warning",
+                            action: duplicateThis,
+                            title: "Сделать копию",
+                        },
+                        {
+                            size: "small",
+                            color: "danger",
+                            action: deleteThis,
+                            title: "Удалить",
+                        },
+                    ]}
+                />
             </div>
         </div>
     </div>

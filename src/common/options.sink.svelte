@@ -1,5 +1,8 @@
 <script>
     import "bulma-switch";
+    import { Frame, Elements } from "not-bulma";
+    const { COMPONENTS } = Frame;
+    const { UITitle } = Elements.Various;
     import { onMount, createEventDispatcher } from "svelte";
     import UIRuleOptions from "./options.rule.svelte";
     import CommonLocal from "./index.js";
@@ -83,33 +86,31 @@
 </script>
 
 <div class="box has-background-light">
-    <div class="field is-horizontal">
-        <div class="field-label">
-            <h4 class="title is-4">{value.id}</h4>
-        </div>
-        <div class="field-body">
-            <div class="field">
-                <div class="control">
-                    <input
-                        type="checkbox"
-                        class="switch"
-                        id="showContent-edit-sink-options-{value._id}"
-                        bind:checked={showContent}
-                        name="showContent"
-                    />
-                    <label
-                        class="label"
-                        for="showContent-edit-sink-options-{value._id}"
-                        >Показать</label
-                    >
-                </div>
+    <div class="columns">
+        <div class="column is-3">
+            <div class="control">
+                <input
+                    type="checkbox"
+                    class="switch"
+                    id="showContent-edit-sink-options-{value._id}"
+                    bind:checked={showContent}
+                    name="showContent"
+                />
+                <label
+                    class="label"
+                    for="showContent-edit-sink-options-{value._id}"
+                    >Показать</label
+                >
             </div>
-            <div class="field">
-                <div class="control">
-                    <button class="button is-danger" on:click={deleteThis}
-                        >Удалить</button
-                    >
-                </div>
+        </div>
+        <div class="column">
+            <UITitle bind:title={value.id} size={4} />
+        </div>
+        <div class="column is-2">
+            <div class="control">
+                <button class="button is-danger" on:click={deleteThis}
+                    >Удалить</button
+                >
             </div>
         </div>
     </div>
@@ -261,30 +262,14 @@
                     </div>
                 </div>
             {:else if value.type === "ws"}
-                <div class="field is-horizontal">
-                    <div class="field-label">
-                        <label
-                            class="label"
-                            for="edit-sink-options-{value._id}-event-name"
-                            >Событие для вызова</label
-                        >
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <p class="control is-narrow">
-                                <input
-                                    class="input is-success"
-                                    id="edit-sink-options-{value._id}-event-name"
-                                    type="text"
-                                    placeholder="module/event"
-                                    bind:value={value.eventName}
-                                    {readonly}
-                                    {disabled}
-                                />
-                            </p>
-                        </div>
-                    </div>
-                </div>
+                <svelte:component
+                    this={COMPONENTS.get(
+                        `UIInformSink${value.type.toUpperCase()}Settings`
+                    )}
+                    {readonly}
+                    {disabled}
+                    bind:value
+                />
             {:else if value.type === "notification"}
                 <div class="notification is-warning">
                     Настройки извещений отсутствуют.
