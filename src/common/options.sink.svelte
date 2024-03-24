@@ -5,9 +5,9 @@
     const { COMPONENTS } = Frame;
     const { UITitle } = Elements.Various;
     import { onMount, createEventDispatcher } from "svelte";
+    let dispatch = createEventDispatcher();
     import UIRuleOptions from "./options.rule.svelte";
     import CommonLocal from "./index.js";
-    let dispatch = createEventDispatcher();
 
     import { writable } from "svelte/store";
 
@@ -86,7 +86,7 @@
     }
 </script>
 
-<div class="box has-background-light">
+<div class="box">
     <div class="columns">
         <div class="column is-3">
             <div class="control">
