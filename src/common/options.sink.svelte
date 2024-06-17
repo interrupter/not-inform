@@ -84,6 +84,10 @@
         dispatch("delete", { index, id: value.id, value });
         return false;
     }
+
+    function toJSONThis() {
+        console.log(JSON.stringify(value, null, 4));
+    }
 </script>
 
 <div class="box">
@@ -109,6 +113,9 @@
         </div>
         <div class="column is-2">
             <div class="control">
+                <button class="button is-info" on:click={toJSONThis}
+                    >JSON</button
+                >
                 <button class="button is-danger" on:click={deleteThis}
                     >Удалить</button
                 >

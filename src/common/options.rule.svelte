@@ -25,6 +25,10 @@
         dispatch("duplicate", { index, _id: value._id, value });
         return false;
     }
+
+    function toJSONThis() {
+        console.log(JSON.stringify(value, null, 4));
+    }
 </script>
 
 <div class="box">
@@ -56,6 +60,12 @@
                             size: "small",
                             color: "warning",
                             action: duplicateThis,
+                            title: "Сделать копию",
+                        },
+                        {
+                            size: "small",
+                            color: "info",
+                            action: toJSONThis,
                             title: "Сделать копию",
                         },
                         {
