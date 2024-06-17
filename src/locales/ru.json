@@ -1,4 +1,8 @@
 {
+  "inform_label_plural": "Настройки информера",
   "menuTitle": "Информер",
-  "menuTitleOptions": "Настройки"
+  "menuTitleOptions": "Настройки",
+  "menuTitleImportFromJSON": "Импорт из JSON",
+  "menuTitleExportToJSON": "Экспорт в JSON",
+  "action_import_from_json_title": "Импорт"
 }

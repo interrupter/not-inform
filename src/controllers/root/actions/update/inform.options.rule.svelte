@@ -66,7 +66,7 @@
                             size: "small",
                             color: "info",
                             action: toJSONThis,
-                            title: "Сделать копию",
+                            title: "JSON to console",
                         },
                         {
                             size: "small",

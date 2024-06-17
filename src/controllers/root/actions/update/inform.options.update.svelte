@@ -3,13 +3,13 @@
     const { UIButtons } = Elements.Buttons;
     const { UITitle } = Elements.Various;
     import { onMount, createEventDispatcher } from "svelte";
-    import UISinkOptions from "./options.sink.svelte";
-    import CommonLocal from "./index.js";
+    import UISinkOptions from "./inform.options.sink.svelte";
+    import CommonLocal from "../../../../common/index";
     import { writable } from "svelte/store";
 
     const optionsStore = writable({});
 
-    let dispatch = createEventDispatcher();
+    const dispatch = createEventDispatcher();
 
     export let options = {};
 
@@ -32,7 +32,7 @@
         optionsStore.subscribe((val) => {
             let res = {};
             Object.values(val).forEach((sink) => {
-                if (Object.prototype.hasOwnProperty.call(res, sink.id)) {
+                if (Object.hasOwn(res, sink.id)) {
                     sink.id = sink.id + "-" + 1;
                 }
                 res[sink.id] = sink;
@@ -43,7 +43,7 @@
     });
 
     function saveToServer() {
-        dispatch("save", options);
+        dispatch("submit", options);
     }
 
     function addSink() {
@@ -51,8 +51,13 @@
         $optionsStore = $optionsStore;
     }
 
-    /*   function exportAll() {}
-    function importAll() {}*/
+    function exportToJSON() {
+        dispatch("exportToJSON");
+    }
+
+    function importFromJSON() {
+        dispatch("importFromJSON");
+    }
 
     function removeSink(e) {
         if (e.detail.index > -1) {
@@ -73,16 +78,14 @@
                     action: addSink,
                     title: "Добавить",
                 },
-                /*{
-                    color: "primary",
-                    action: exportAll,
-                    title: "Экспорт",
+                {
+                    action: exportToJSON,
+                    title: "Экспорт JSON",
                 },
                 {
-                    color: "primary",
-                    action: importAll,
-                    title: "Импорт",
-                },*/
+                    action: importFromJSON,
+                    title: "Импорт JSON",
+                },
             ]}
         />
     </div>

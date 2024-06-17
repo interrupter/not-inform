@@ -6,8 +6,8 @@
     const { UITitle } = Elements.Various;
     import { onMount, createEventDispatcher } from "svelte";
     let dispatch = createEventDispatcher();
-    import UIRuleOptions from "./options.rule.svelte";
-    import CommonLocal from "./index.js";
+    import UIRuleOptions from "./inform.options.rule.svelte";
+    import CommonLocal from "../../../../common/index.js";
 
     import { writable } from "svelte/store";
 
@@ -114,7 +114,7 @@
         <div class="column is-2">
             <div class="control">
                 <button class="button is-info" on:click={toJSONThis}
-                    >JSON</button
+                    >JSON to console</button
                 >
                 <button class="button is-danger" on:click={deleteThis}
                     >Удалить</button

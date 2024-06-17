@@ -8,5 +8,6 @@ module.exports = {
     paths: {
         controllers: __dirname + "/controllers",
         locales: __dirname + "/locales",
+       
     },
 };

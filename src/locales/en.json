@@ -1,4 +1,7 @@
 {
+  "inform_label_plural": "Informer's options",
   "menuTitle": "Informer",
-  "menuTitleOptions": "Options"
+  "menuTitleOptions": "Options",
+  "menuTitleImportFromJSON": "Import from JSON",
+  "menuTitleExportToJSON": "Export to JSON"
 }
