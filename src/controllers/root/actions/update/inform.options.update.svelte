@@ -11,10 +11,16 @@
 
     const dispatch = createEventDispatcher();
 
-    export let options = {};
 
-    export let title = "";
-    export let subtitle = "";
+    /**
+     * @typedef {Object} Props
+     * @property {any} [options]
+     * @property {string} [title]
+     * @property {string} [subtitle]
+     */
+
+    /** @type {Props} */
+    let { options = $bindable({}), title = "", subtitle = "" } = $props();
 
     onMount(() => {
         $optionsStore = [];
@@ -103,7 +109,7 @@
     <div class="field-body">
         <div class="field">
             <div class="control">
-                <button class="button is-primary" on:click={saveToServer}
+                <button class="button is-primary" onclick={saveToServer}
                     >Сохранить</button
                 >
             </div>

@@ -8,11 +8,23 @@
     import { createEventDispatcher } from "svelte";
     let dispatch = createEventDispatcher();
 
-    export let index = -1;
-    export let value = {};
-    export let readonly = false;
-    export let disabled = false;
-    export let showContent = false;
+    /**
+     * @typedef {Object} Props
+     * @property {any} [index]
+     * @property {any} [value]
+     * @property {boolean} [readonly]
+     * @property {boolean} [disabled]
+     * @property {boolean} [showContent]
+     */
+
+    /** @type {Props} */
+    let {
+        index = -1,
+        value = $bindable({}),
+        readonly = false,
+        disabled = false,
+        showContent = $bindable(false)
+    } = $props();
 
     function deleteThis(e) {
         e.preventDefault();
@@ -129,12 +141,12 @@
                 </div>
             </div>
             {#if value.type && COMPONENTS.get(`UIInformRule${notCommon.capitalizeFirstLetter(value.type)}Settings`)}
-                <svelte:component
-                    this={COMPONENTS.get(
+                {@const SvelteComponent = COMPONENTS.get(
                         `UIInformRule${notCommon.capitalizeFirstLetter(
                             value.type
                         )}Settings`
                     )}
+                <SvelteComponent
                     {readonly}
                     {disabled}
                     bind:value
@@ -236,7 +248,7 @@
                                 {readonly}
                                 {disabled}
                                 placeholder=""
-                            />
+></textarea>
                         </p>
                     </div>
                 </div>
@@ -259,7 +271,7 @@
                                 {readonly}
                                 {disabled}
                                 placeholder=""
-                            />
+></textarea>
                         </p>
                     </div>
                 </div>

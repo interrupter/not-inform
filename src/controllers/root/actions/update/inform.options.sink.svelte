@@ -13,11 +13,22 @@
 
     const rulesStore = writable({});
 
-    export let readonly = false;
-    export let disabled = false;
-    export let index = -1;
-    export let showContent = false;
-    export let value = {
+    /**
+     * @typedef {Object} Props
+     * @property {boolean} [readonly]
+     * @property {boolean} [disabled]
+     * @property {any} [index]
+     * @property {boolean} [showContent]
+     * @property {any} [value]
+     */
+
+    /** @type {Props} */
+    let {
+        readonly = false,
+        disabled = false,
+        index = -1,
+        showContent = $bindable(false),
+        value = $bindable({
         _id: Math.random().toString().slice(3, 10),
         id: "some-rule",
         type: "email",
@@ -31,7 +42,8 @@
             },
         },
         rules: {},
-    };
+    })
+    } = $props();
 
     onMount(() => {
         if (typeof value.id === "undefined" || value.id === "undefined") {
@@ -113,10 +125,10 @@
         </div>
         <div class="column is-2">
             <div class="control">
-                <button class="button is-info" on:click={toJSONThis}
+                <button class="button is-info" onclick={toJSONThis}
                     >JSON to console</button
                 >
-                <button class="button is-danger" on:click={deleteThis}
+                <button class="button is-danger" onclick={deleteThis}
                     >Удалить</button
                 >
             </div>
@@ -178,12 +190,12 @@
             </div>
 
             {#if value.type && COMPONENTS.get(`UIInformSink${notCommon.capitalizeFirstLetter(value.type)}Settings`)}
-                <svelte:component
-                    this={COMPONENTS.get(
+                {@const SvelteComponent = COMPONENTS.get(
                         `UIInformSink${notCommon.capitalizeFirstLetter(
                             value.type
                         )}Settings`
                     )}
+                <SvelteComponent
                     {readonly}
                     {disabled}
                     bind:value
@@ -223,7 +235,7 @@
                     </div>
                     <div class="field">
                         <div class="control">
-                            <button class="button is-primary" on:click={addRule}
+                            <button class="button is-primary" onclick={addRule}
                                 >Добавить правило</button
                             >
                         </div>
