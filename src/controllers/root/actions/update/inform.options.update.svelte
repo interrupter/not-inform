@@ -11,7 +11,6 @@
 
     const dispatch = createEventDispatcher();
 
-
     /**
      * @typedef {Object} Props
      * @property {any} [options]
@@ -98,7 +97,11 @@
 </div>
 {#if $optionsStore}
     {#each $optionsStore as sink, index (sink._id)}
-        <UISinkOptions {index} bind:value={sink} on:delete={removeSink} />
+        <UISinkOptions
+            {index}
+            bind:value={$optionsStore[index]}
+            on:delete={removeSink}
+        />
     {/each}
 {/if}
 

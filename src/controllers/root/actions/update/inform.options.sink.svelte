@@ -29,20 +29,20 @@
         index = -1,
         showContent = $bindable(false),
         value = $bindable({
-        _id: Math.random().toString().slice(3, 10),
-        id: "some-rule",
-        type: "email",
-        account: {
-            host: "",
-            port: 465,
-            secure: true,
-            auth: {
-                user: "",
-                pass: "",
+            _id: Math.random().toString().slice(3, 10),
+            id: "some-rule",
+            type: "email",
+            account: {
+                host: "",
+                port: 465,
+                secure: true,
+                auth: {
+                    user: "",
+                    pass: "",
+                },
             },
-        },
-        rules: {},
-    })
+            rules: {},
+        }),
     } = $props();
 
     onMount(() => {
@@ -191,15 +191,11 @@
 
             {#if value.type && COMPONENTS.get(`UIInformSink${notCommon.capitalizeFirstLetter(value.type)}Settings`)}
                 {@const SvelteComponent = COMPONENTS.get(
-                        `UIInformSink${notCommon.capitalizeFirstLetter(
-                            value.type
-                        )}Settings`
-                    )}
-                <SvelteComponent
-                    {readonly}
-                    {disabled}
-                    bind:value
-                />
+                    `UIInformSink${notCommon.capitalizeFirstLetter(
+                        value.type
+                    )}Settings`
+                )}
+                <SvelteComponent {readonly} {disabled} bind:value />
             {:else if value.type}
                 <div class="notification is-warning">
                     Интерфейс недоступен для `{value.type}`.
@@ -248,7 +244,7 @@
                         <UIRuleOptions
                             {index}
                             id={rule._id}
-                            bind:value={rule}
+                            bind:value={$rulesStore[index]}
                             on:delete={removeRule}
                             on:duplicate={duplicateRule}
                         />
