@@ -1,6 +1,6 @@
 {
     "name": "not-inform",
-    "version": "0.2.1",
+    "version": "0.2.2",
     "description": "not-* family inform interface for information supply/deploy",
     "main": "./src/index.js",
     "scripts": {
