@@ -2,14 +2,12 @@
     import { Elements } from "not-bulma";
     const { UIButtons } = Elements.Buttons;
     const { UITitle } = Elements.Various;
-    import { onMount, createEventDispatcher } from "svelte";
+    import { onMount } from "svelte";
     import UISinkOptions from "./inform.options.sink.svelte";
     import CommonLocal from "../../../../common/index";
     import { writable } from "svelte/store";
 
     const optionsStore = writable({});
-
-    const dispatch = createEventDispatcher();
 
     /**
      * @typedef {Object} Props
@@ -19,7 +17,14 @@
      */
 
     /** @type {Props} */
-    let { options = $bindable({}), title = "", subtitle = "" } = $props();
+    let {
+        options = $bindable({}),
+        title = "",
+        subtitle = "",
+        onsubmit = () => {},
+        onExportToJSON = () => {},
+        onImportFromJSON = () => {},
+    } = $props();
 
     onMount(() => {
         $optionsStore = [];
@@ -28,7 +33,7 @@
                 sinks: options,
             };
         }
-        $optionsStore = [...Object.values(options.sinks)];
+        $optionsStore = [...Object.values(options?.sinks || [])];
         $optionsStore.forEach((val) => {
             if (!val._id) {
                 val._id = Math.random().toString().slice(3, 10);
@@ -43,12 +48,12 @@
                 res[sink.id] = sink;
             });
             options.sinks = res;
-            options = options;
         });
     });
 
     function saveToServer() {
-        dispatch("submit", options);
+        console.log($state.snapshot(options));
+        onsubmit($state.snapshot(options));
     }
 
     function addSink() {
@@ -57,18 +62,18 @@
     }
 
     function exportToJSON() {
-        dispatch("exportToJSON");
+        onExportToJSON();
     }
 
     function importFromJSON() {
-        dispatch("importFromJSON");
+        onImportFromJSON();
     }
 
     function removeSink(e) {
-        if (e.detail.index > -1) {
-            $optionsStore.splice(e.detail.index, 1);
+        if (e.index > -1) {
+            $optionsStore.splice(e.index, 1);
+            $optionsStore = $optionsStore;
         }
-        $optionsStore = $optionsStore;
     }
 </script>
 
@@ -100,7 +105,7 @@
         <UISinkOptions
             {index}
             bind:value={$optionsStore[index]}
-            on:delete={removeSink}
+            ondelete={removeSink}
         />
     {/each}
 {/if}

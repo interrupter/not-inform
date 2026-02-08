@@ -5,9 +5,6 @@
     const { UIButtons } = Elements.Buttons;
     const { COMPONENTS } = Frame;
 
-    import { createEventDispatcher } from "svelte";
-    let dispatch = createEventDispatcher();
-
     /**
      * @typedef {Object} Props
      * @property {any} [index]
@@ -23,18 +20,20 @@
         value = $bindable({}),
         readonly = false,
         disabled = false,
-        showContent = $bindable(false)
+        showContent = $bindable(false),
+        ondelete = () => {},
+        onduplicate = () => {},
     } = $props();
 
     function deleteThis(e) {
         e.preventDefault();
-        dispatch("delete", { index, _id: value._id, value });
+        ondelete({ index, _id: value._id, value });
         return false;
     }
 
     function duplicateThis(e) {
         e.preventDefault();
-        dispatch("duplicate", { index, _id: value._id, value });
+        onduplicate({ index, _id: value._id, value });
         return false;
     }
 
@@ -142,16 +141,11 @@
             </div>
             {#if value.type && COMPONENTS.get(`UIInformRule${notCommon.capitalizeFirstLetter(value.type)}Settings`)}
                 {@const SvelteComponent = COMPONENTS.get(
-                        `UIInformRule${notCommon.capitalizeFirstLetter(
-                            value.type
-                        )}Settings`
-                    )}
-                <SvelteComponent
-                    {readonly}
-                    {disabled}
-                    bind:value
-                    on:change
-                />
+                    `UIInformRule${notCommon.capitalizeFirstLetter(
+                        value.type
+                    )}Settings`
+                )}
+                <SvelteComponent {readonly} {disabled} bind:value onchange />
             {:else if value.type}
                 <div class="notification is-warning">
                     Интерфейс недоступен для `{value.type}`.
@@ -248,7 +242,7 @@
                                 {readonly}
                                 {disabled}
                                 placeholder=""
-></textarea>
+                            ></textarea>
                         </p>
                     </div>
                 </div>
@@ -271,7 +265,7 @@
                                 {readonly}
                                 {disabled}
                                 placeholder=""
-></textarea>
+                            ></textarea>
                         </p>
                     </div>
                 </div>

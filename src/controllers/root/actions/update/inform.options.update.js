@@ -2,7 +2,7 @@ import { MODULE_NAME } from "../../../../const";
 import notCommon from "../../../../../../not-bulma/src/frame/common";
 import UIInformOptionsUpdate from "./inform.options.update.svelte";
 import CRUDActionUpdate from "not-bulma/src/frame/crud/actions/update";
-import UISuccess from "not-bulma/src/elements/notification/ui.success.svelte";
+import { UIAdapterSvelte } from "not-bulma/src/frame";
 
 const DATA_MODEL_NAME = "options";
 
@@ -30,16 +30,16 @@ class ncaInformUpdate extends CRUDActionUpdate {
      */
     static prepareUIOptions(controller, response) {
         return {
-            target: controller.getContainerInnerElement(),
-            props: {
-                title: "Настройки информера",
-                subtitle:
-                    "шлюзы для отправки сообщений и правила фильтрации сообщений",
-                options: this.TRANSFORMER(
-                    notCommon.stripProxy(response.result)
-                ),
-            },
+            title: "Настройки информера",
+            subtitle: "шлюзы для отправки сообщений и правила фильтрации сообщений",
+            options: this.TRANSFORMER(
+                notCommon.stripProxy(response.result)
+            ) || {},
         };
+    }
+
+    static buildUI(controller, options){
+        this.setUI(controller, new UIAdapterSvelte(this.UIConstructor, controller.getContainerInnerElement(), options));
     }
 
     /**
@@ -50,23 +50,23 @@ class ncaInformUpdate extends CRUDActionUpdate {
      */
     static bindUIEvents(controller, params, response) {
         if (notCommon.isFunc(controller.goBack)) {
-            this.bindUIEvent(controller, "reject", () =>
+            this.bindUIEvent(controller, "onreject", () =>
                 this.goBack(controller)
             );
         }
 
-        this.bindUIEvent(controller, "submit", async (ev) => {
-            const success = await this.saveToServer(controller, ev.detail);
+        this.bindUIEvent(controller, "onsubmit", async (ev) => {
+            const success = await this.saveToServer(controller, ev);
             if (success) {
                 this.goBackAfterDelay(controller);
             }
         });
 
-        this.bindUIEvent(controller, "exportToJSON", async (ev) => {
+        this.bindUIEvent(controller, "onExportToJSON", async (ev) => {
             controller.goAfterDelay(controller.getModelActionURL("", "exportToJSON"), 0);
         });
 
-        this.bindUIEvent(controller, "importFromJSON", async (ev) => {
+        this.bindUIEvent(controller, "onImportFromJSON", async (ev) => {
             controller.goAfterDelay(controller.getModelActionURL("", "importFromJSON"), 0);
         });
     }

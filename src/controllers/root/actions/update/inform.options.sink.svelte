@@ -4,8 +4,8 @@
 
     const { COMPONENTS } = Frame;
     const { UITitle } = Elements.Various;
-    import { onMount, createEventDispatcher } from "svelte";
-    let dispatch = createEventDispatcher();
+    import { onMount } from "svelte";
+
     import UIRuleOptions from "./inform.options.rule.svelte";
     import CommonLocal from "../../../../common/index.js";
 
@@ -43,6 +43,7 @@
             },
             rules: {},
         }),
+        ondelete = () => {},
     } = $props();
 
     onMount(() => {
@@ -58,7 +59,7 @@
         rulesStore.subscribe((val) => {
             let res = {};
             Object.values(val).forEach((rule) => {
-                if (Object.prototype.hasOwnProperty.call(res, rule.id)) {
+                if (Object.hasOwn(res, rule.id)) {
                     rule.id = rule.id + "-" + 1;
                 }
                 res[rule.id] = rule;
@@ -74,14 +75,14 @@
     }
 
     function removeRule(e) {
-        if (e.detail.index > -1) {
-            $rulesStore.splice(e.detail.index, 1);
+        if (e.index > -1) {
+            $rulesStore.splice(e.index, 1);
             $rulesStore = $rulesStore;
         }
     }
 
     function duplicateRule(e) {
-        const index = e.detail.index;
+        const index = e.index;
         if (index > -1) {
             const ruleCopy = JSON.parse(JSON.stringify($rulesStore[index]));
             ruleCopy.id = ruleCopy.id + "*";
@@ -93,7 +94,7 @@
 
     function deleteThis(e) {
         e.preventDefault();
-        dispatch("delete", { index, id: value.id, value });
+        ondelete({ index, id: value.id, value });
         return false;
     }
 
@@ -245,8 +246,8 @@
                             {index}
                             id={rule._id}
                             bind:value={$rulesStore[index]}
-                            on:delete={removeRule}
-                            on:duplicate={duplicateRule}
+                            ondelete={removeRule}
+                            onduplicate={duplicateRule}
                         />
                     {/each}
                 </div>
