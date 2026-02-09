@@ -1,5 +1,5 @@
 <script>
-    import { Frame, Elements, notCommon } from "not-bulma";
+    import { Frame, Elements, notCommon, UICommon } from "not-bulma";
 
     const { UITitle } = Elements.Various;
     const { UIButtons } = Elements.Buttons;
@@ -66,7 +66,7 @@
         <div class="column is-3">
             <div class="control">
                 <UIButtons
-                    values={[
+                    values={UICommon.addIds([
                         {
                             size: "small",
                             color: "warning",
@@ -85,7 +85,7 @@
                             action: deleteThis,
                             title: "Удалить",
                         },
-                    ]}
+                    ])}
                 />
             </div>
         </div>
